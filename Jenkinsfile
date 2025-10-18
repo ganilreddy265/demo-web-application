@@ -11,7 +11,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t demo-web-application:latest .'
+                sh 'docker build -t web-application:latest .'
             }
         }
 
@@ -24,7 +24,7 @@ pipeline {
         stage('Push Image to Registry') {
             steps {
                 withDockerRegistry([credentialsId: 'dockerhub-credentials', url: '']) {
-                    sh 'docker push yourdockerhubusername/demo-web-application:latest'
+                    sh 'docker push yourdockerhubusername/web-application:latest'
                 }
             }
         }
