@@ -24,7 +24,7 @@ pipeline {
         stage('Push Image to Registry') {
             steps {
                 withDockerRegistry([credentialsId: 'dockerhub-credentials', url: '']) {
-                    sh 'docker push yourdockerhubusername/web-application:latest'
+                    sh 'docker push Anil9182/web-application:latest'
                 }
             }
         }
