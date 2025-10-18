@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        REPO_URL = 'https://github.com/yourusername/clothing_store_app.git'
-        IMAGE_NAME = 'clothing_store_app'
+        REPO_URL = 'https://github.com/ganilreddy265/Demo-Web-Application.git'
+        IMAGE_NAME = 'Demo-Web-Application'
     }
 
     parameters {
