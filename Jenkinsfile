@@ -7,13 +7,14 @@ pipeline {
     }
 
     parameters {
-        choice(name: 'TARGET_ENV', choices: ['sit', 'uat', 'prod'], description: 'Select environment to deploy')
+        choice(name: 'TARGET_ENV', choices: ['sit', 'uat'], description: 'Select environment to deploy')
     }
 
     stages {
         stage('Checkout') {
             steps {
                 git branch: 'main', url: "${REPO_URL}"
+                credentialsId: 'github-credentials'
             }
         }
 
