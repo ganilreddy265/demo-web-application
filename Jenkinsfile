@@ -1,59 +1,44 @@
 pipeline {
     agent any
 
-    environment {
-        REPO_URL = 'https://github.com/ganilreddy265/Demo-Web-Application.git'
-        IMAGE_NAME = 'Demo-Web-Application'
-    }
-
-    parameters {
-        choice(name: 'TARGET_ENV', choices: ['sit', 'uat'], description: 'Select environment to deploy')
-    }
-
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: "${REPO_URL}"
-                credentialsId: 'github-credentials'
+                git branch: 'main',
+                    url: 'https://github.com/ganilreddy265/Demo-Web-Application.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t ${IMAGE_NAME}:latest .'
+                sh 'docker build -t demo-web-application:latest .'
             }
         }
 
         stage('Run Unit Tests') {
             steps {
-                sh 'docker run --rm ${IMAGE_NAME}:latest python -m unittest discover -s tests || echo "No tests yet"'
+                sh 'pytest tests/'
             }
         }
 
         stage('Push Image to Registry') {
             steps {
-                sh 'docker tag ${IMAGE_NAME}:latest Anil9182/${IMAGE_NAME}:latest'
-                sh 'docker push Anil982/${IMAGE_NAME}:latest'
+                withDockerRegistry([credentialsId: 'dockerhub-credentials', url: '']) {
+                    sh 'docker push yourdockerhubusername/demo-web-application:latest'
+                }
             }
         }
 
         stage('Deploy with Ansible') {
             steps {
-                sh """
-                ansible-playbook ansible/site.yml \
-                    -i ansible/inventory \
-                    -e target_env=${TARGET_ENV}
-                """
+                sh 'ansible-playbook deploy.yml'
             }
         }
     }
 
     post {
-        success {
-            echo "Deployment to ${params.TARGET_ENV} successful!"
-        }
         failure {
-            echo "Deployment failed."
+            echo 'Deployment failed.'
         }
     }
 }
