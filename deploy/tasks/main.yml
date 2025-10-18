@@ -1,0 +1,30 @@
+---
+# tasks file for deploy
+- name: Pull latest Docker image
+  docker_image:
+    name: clothing_store_app
+    source: pull
+    tag: latest
+
+- name: Stop existing container
+  docker_container:
+    name: clothing_store_app
+    state: stopped
+  ignore_errors: yes
+
+- name: Remove old container
+  docker_container:
+    name: clothing_store_app
+    state: absent
+  ignore_errors: yes
+
+- name: Run new container
+  docker_container:
+    name: clothing_store_app
+    image: clothing_store_app:latest
+    state: started
+    restart_policy: always
+    published_ports:
+      - "5000:5000"
+    env:
+      APP_ENV: "{{ target_env }}"

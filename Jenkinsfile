@@ -31,8 +31,8 @@ pipeline {
 
         stage('Push Image to Registry') {
             steps {
-                sh 'docker tag ${IMAGE_NAME}:latest mydockerhub/${IMAGE_NAME}:latest'
-                sh 'docker push mydockerhub/${IMAGE_NAME}:latest'
+                sh 'docker tag ${IMAGE_NAME}:latest Anil9182/${IMAGE_NAME}:latest'
+                sh 'docker push Anil982/${IMAGE_NAME}:latest'
             }
         }
 
