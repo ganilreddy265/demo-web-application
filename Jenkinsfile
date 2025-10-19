@@ -38,11 +38,15 @@ pipeline {
 
         stage('Push Image to Registry') {
             steps {
-                withDockerRegistry([credentialsId: 'dockerhub-credentials', url: '']) {
-                    sh 'docker push anil9182/demo-web-application:latest'
-                }
-            }
+                withDockerRegistry([ credentialsId: 'dockerhub-credentials', url: '' ]) {
+                    sh '''
+                        docker tag demo-web-application:latest anil9182/demo-web-application:latest
+                        docker push anil9182/demo-web-application:latest
+                        '''
         }
+    }
+}
+
 
         stage('Deploy with Ansible') {
             steps {
