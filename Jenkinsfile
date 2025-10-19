@@ -36,7 +36,7 @@ pipeline {
                     // Install dependencies before running tests
                     sh '''
                         pip install -r requirements.txt
-                        pytest -v || echo "No tests or tests failed"
+                        pytest -v tests/
                     '''
                 }
             }
