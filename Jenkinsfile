@@ -17,9 +17,18 @@ pipeline {
 
         stage('Run Unit Tests') {
             steps {
-                sh 'pytest tests/'
+                script {
+                    // Check if the tests directory exists
+                    if (fileExists('tests')) {
+                        sh 'pytest tests/'
+                   } else {
+                        echo "⚠️ No 'tests/' folder found. Running pytest to auto-discover tests."
+                        sh 'pytest'
             }
         }
+    }
+}
+
 
         stage('Push Image to Registry') {
             steps {
