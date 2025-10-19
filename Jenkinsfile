@@ -17,9 +17,13 @@ pipeline {
 
         stage('Run Unit Tests') {
             steps {
-                sh 'pytest tests/'
-            }
-        }
+                sh '''
+                    source ~/venv/bin/activate
+                    pytest tests/
+                    '''
+    }
+}
+
 
         stage('Push Image to Registry') {
             steps {
