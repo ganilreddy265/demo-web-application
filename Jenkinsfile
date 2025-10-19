@@ -48,9 +48,10 @@ pipeline {
 
         stage('Deploy with Ansible') {
             steps {
-                sh 'ansible-playbook site.yml'
-            }
+                sh "ansible-playbook ansible/site.yml -i ansible/inventory -e target_env=${params.TARGET_ENV}"
         }
+    }
+
     }
 
     post {
