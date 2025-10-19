@@ -5,13 +5,13 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/ganilreddy265/Demo-Web-Application.git'
+                    url: 'https://github.com/ganilreddy265/demo-web-application.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t web-application:latest .'
+                sh 'docker build -t demo-web-application:latest .'
             }
         }
 
@@ -24,7 +24,7 @@ pipeline {
         stage('Push Image to Registry') {
             steps {
                 withDockerRegistry([credentialsId: 'dockerhub-credentials', url: '']) {
-                    sh 'docker push Anil9182/web-application:latest'
+                    sh 'docker push Anil9182/demo-web-application:latest'
                 }
             }
         }
