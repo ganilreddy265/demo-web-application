@@ -32,15 +32,9 @@ pipeline {
 
         stage('Run Unit Tests') {
             steps {
-                script {
-                    // Install dependencies before running tests
-                    sh '''
-                        pip install -r requirements.txt
-                        pytest -v tests/
-                    '''
-                }
-            }
-        }
+                sh 'docker run --rm demo-web-application:latest pytest -v'
+    }
+}
         stage('Push Image to Registry') {
             steps {
                 withDockerRegistry([credentialsId: 'dockerhub-credentials', url: '']) {
