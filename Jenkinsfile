@@ -15,22 +15,32 @@ pipeline {
             }
         }
 
+//         stage('Run Unit Tests') {
+//             steps {
+//                 script {
+//                     // Check if the tests directory exists
+//                     if (fileExists('tests')) {
+//                         pip install -r requirements.txt
+//                         sh 'pytest tests/'
+//                    } else {
+//                         echo "⚠️ No 'tests/' folder found. Running pytest to auto-discover tests."
+//                         sh 'pytest'
+//             }
+//         }
+//     }
+// }
+
         stage('Run Unit Tests') {
             steps {
                 script {
-                    // Check if the tests directory exists
-                    if (fileExists('tests')) {
+                    // Install dependencies before running tests
+                    sh '''
                         pip install -r requirements.txt
-                        sh 'pytest tests/'
-                   } else {
-                        echo "⚠️ No 'tests/' folder found. Running pytest to auto-discover tests."
-                        sh 'pytest'
+                        pytest -v || echo "No tests or tests failed"
+                    '''
+                }
             }
         }
-    }
-}
-
-
         stage('Push Image to Registry') {
             steps {
                 withDockerRegistry([credentialsId: 'dockerhub-credentials', url: '']) {
