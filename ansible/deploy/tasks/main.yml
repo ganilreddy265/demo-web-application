@@ -1,4 +1,4 @@
-----
+---
 - name: Pull latest Docker image
   docker_image:
     name: anil9182/demo-web-application
