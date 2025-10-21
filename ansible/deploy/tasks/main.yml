@@ -2,26 +2,26 @@
 # tasks file for deploy
 - name: Pull latest Docker image
   docker_image:
-    name: demo-web-application
+    name: anil9182/demo-web-application
     source: pull
     tag: latest
 
 - name: Stop existing container
   docker_container:
-    name: demo-web-application
+    name: anil9182/demo-web-application
     state: stopped
   ignore_errors: yes
 
 - name: Remove old container
   docker_container:
-    name: demo-web-application
+    name: anil9182/demo-web-application
     state: absent
   ignore_errors: yes
 
 - name: Run new container
   docker_container:
-    name: demo-web-application
-    image: demo-web-application:latest
+    name: anil9182/demo-web-application
+    image: anil9182/demo-web-application:latest
     state: started
     restart_policy: always
     published_ports:
